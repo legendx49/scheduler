@@ -1,45 +1,74 @@
 <!DOCTYPE html> 
-<html> 
-<head> 
-    <meta charset="utf-8" /> 
-    <title>Monthly Schedule</title> 
-    <link rel="stylesheet" href="CSSFiles/schedule.css" /> 
-</head> 
-<body> 
-<div id="calendar"> 
-    <div class="header"> 
-    	<span class="left button" id="prev"> &larr; </span> 
-		<span class="left hook"></span> 
-		<span class="month-year" id="label"> June 2000 </span> 
-		<span class="right hook"></span> 
-		<span class="right button" id="next"> &rarr; </span>
- 
-    </div> 
-    <table id="daysOfWeek"> 
-    <td>sun</td> 
-	<td>mon</td> 
-	<td>tue</td> 
-	<td>wed</td> 
-	<td>thu</td> 
-	<td>fri</td> 
-	<td>sat</td>
- 
- 
-    </table> 
-    <div id="calendarGrid"> 
-    <table class="curr"> 
-    <tbody> 
-        <tr><td class="nil"></td><td class="nil"></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr> 
-        <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td class="today">11</td><td>12</td></tr> 
-        <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr> 
-        <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr> 
-        <tr><td>27</td><td>28</td><td>29</td><td>30</td><td class="nil"></td><td class="nil"></td><td class="nil"></td></tr> 
-    </tbody> 
-</table>
- 
- 
-    </div> 
-</div>
- 
-</body> 
+<html>
+<head>
+<style type="text/css">
+
+.main {
+width:100%;
+height : 1000px;
+border:1px solid black;
+}
+
+.month {
+background-color:black;
+font:bold 24px verdana;
+color:white;
+text-align: center;
+}
+
+.monthyear{
+    text-align: center
+    margin-left : 29 %;
+}
+.daysofweek {
+background-color:gray;
+font:bold 12px verdana;
+color:white;
+}
+
+.days {
+font-size: 12px;
+font-family:verdana;
+color:black;
+text-align : left;
+vertical-align: top;
+background-color: lightyellow;
+padding: 2px;
+}
+
+.days #today{
+font-weight: bold;
+color: red;
+}
+
+.leftarrow{
+    text-align: left;
+    font:bold 30px verdana;
+    
+}
+.rightarrow{
+    text-align: left;
+    font:bold 30px verdana;
+}
+
+</style>
+
+
+<script type="text/javascript" src="JSFiles\calendar.js">
+
+
+</script>
+
+</head>
+<body>
+<script type="text/javascript">
+
+var todaydate=new Date()
+var curmonth=todaydate.getMonth()+1 //get current month (1-12)
+var curyear=todaydate.getFullYear() //get current year
+
+document.write(buildCal(curmonth ,curyear, "main", "month", "daysofweek", "days", 1));
+</script>
+</body>
+
 </html>
