@@ -1,129 +1,30 @@
+function buildCal(m, y, main, month, daysofweek, days, num){
 
-var CALENDAR = function () { 
-       var wrap, label,  
-               months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; 
- 
-   function init(newWrap) { 
-      alert("YIP)");
-            wrap  = $(newWrap || "#calendar"); 
-            label = wrap.find("#label"); 
-            wrap.find("#prev").bind("click.calendar", function () { switchMonth(false); }); 
-            wrap.find("#next").bind("click.calendar", function () { switchMonth(true);  }); 
-            label.bind("click", function () { switchMonth(null, new Date().getMonth(), new Date().getFullYear()); });        
-            label.click();
-            
-       } 
- 
-   function switchMonth(next, month, year) { 
-         var curr = label.text().trim().split(" ");
-         var calendar; 
-         var tempYear =  parseInt(curr[1], 10); 
-         if (!month) { 
-            if (next) { 
-               if (curr[0] === "December") { 
-                  month = 0; 
-               } else { 
-                  month = months.indexOf(curr[0]) + 1; 
-               } 
-            } else { 
-            
-               if (curr[0] === "January") { 
-                  month = 11; 
-               } else { 
-                  month = months.indexOf(curr[0]) - 1; 
-               } 
-            } 
-         }
+var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+var dim=[31,0,31,30,31,30,31,31,30,31,30,31];
 
-         if (!year) { 
-            if (next && month === 0) { 
-               year = tempYear + 1; 
-            } else if (!next && month === 11) { 
-               year = tempYear - 1; 
-            } else { 
-               year = tempYear; 
-            } 
-         }
+var oD = new Date(y, m-1, 1); //DD replaced line to fix date bug when current day is 31st
+oD.od=oD.getDay()+1; //DD replaced line to fix date bug when current day is 31st
 
-          calendar =  createCal(year, month); 
-           $("#calendargrid", wrap) 
-               .find(".curr") 
-                   .removeClass("curr") 
-                   .addClass("temp") 
-               .end() 
-               .prepend(calendar.calendar()) 
-               .find(".temp") 
-                   .fadeOut("slow", function () { $(this).remove(); }); 
- 
-           $('#label').text(calendar.label);
+var todaydate=new Date() //DD added
+var scanfortoday=(y==todaydate.getFullYear() && m==todaydate.getMonth()+1)? todaydate.getDate() : 0 //DD added
 
-       } 
- 
-   function createCal(year, month) { 
-         var day = 1, i, j, haveDays = true,  
-         startDay = new Date(year, month, day).getDay(), 
-         daysInMonths = [31, (((year%4==0)&&(year%100!=0))||(year%400==0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], 
-         calendar = [];
+dim[1]=(((oD.getFullYear()%100!=0)&&(oD.getFullYear()%4==0))||(oD.getFullYear()%400==0))?29:28;
+var t='<div class="'+main+'"><table class="'+main+'" cols="7" cellpadding="0" border="'+num+'" cellspacing="0"><tr align="center">';
 
-         if (createCal.cache[year]) { 
-            if (createCal.cache[year][month]) { 
-               return createCal.cache[year][month]; 
-            }     
-         } else { 
-            createCal.cache[year] = {}; 
-         }
+t+='<td colspan="7" align="center" class="'+month+'"><span class = "leftarrow">'+"&larr;     "+'</span><span class = "monthyear">'+mn[m-1]+' - '+y+'</span><span class = "rightarrow">'+"     &rarr;"+'</span></td></tr><tr align="center">';
 
-       i = 0; 
-      while (haveDays) { 
-         calendar[i] = []; 
-         for (j = 0; j < 7; j++) { 
-            if (i === 0) { 
-               if (j === startDay) { 
-                  calendar[i][j] = day++; 
-                  startDay++; 
-               } 
-            } else if (day <= daysInMonths[month]) { 
-               calendar[i][j] = day++; 
-            } else { 
-               calendar[i][j] = ""; 
-               haveDays = false; 
-            } 
-            if (day > daysInMonths[month]) { 
-               haveDays = false; 
-            } 
-         } 
-         i++; 
-      }
+for(s=0;s<7;s++)t+='<td class="'+daysofweek+'">'+"SMTWTFS".substr(s,1)+'</td>';
+t+='</tr><tr align="center">';
 
-      if (calendar[5]) { 
-       for (i = 0; i < calendar[5].length; i++) { 
-            if (calendar[5][i] !== "") { 
-               calendar[4][i] = "<span>" + calendar[4][i] + "</span><span>" + calendar[5][i] + "</span>"; 
-            } 
-         } 
-         calendar = calendar.slice(0, 5); 
-      }
+for(i=1;i<=42;i++){
+var x=((i-oD.od>=0)&&(i-oD.od<dim[m-1]))? i-oD.od+1 : '&nbsp;';
 
-      for (i = 0; i < calendar.length; i++) { 
-       calendar[i] = "<tr><td>" + calendar[i].join("</td><td>") + "</td></tr>"; 
-   } 
-   calendar = $("<table>" + calendar.join("") + "</table>").addClass("curr"); 
- 
-   $("td:empty", calendar).addClass("nil"); 
-   if (month === new Date().getMonth()) { 
-       $('td', calendar).filter(function () { return $(this).text() === new Date().getDate().toString(); }).addClass("today"); 
-   } 
-   createCal.cache[year][month] = { calendar : function () { return calendar.clone() }, label : months[month] + " " + year }; 
- 
-   return createCal.cache[year][month];
+if (x==scanfortoday) //DD added
+x='<span id="today">'+x+'</span>' //DD added
+t+='<td class="'+days+'">'+x+'</td>';
 
+if(((i)%7==0)&&(i<36))t+='</tr><tr align="center">';
 }
-
-        
-       createCal.cache = {}; 
-       return { 
-           init : init, 
-           switchMonth : switchMonth, 
-           createCal   : createCal 
-       }; 
-   };
+return t+='</tr></table></div>';
+}
