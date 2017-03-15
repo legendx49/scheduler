@@ -12,7 +12,9 @@ var scanfortoday=(y==todaydate.getFullYear() && m==todaydate.getMonth()+1)? toda
 dim[1]=(((oD.getFullYear()%100!=0)&&(oD.getFullYear()%4==0))||(oD.getFullYear()%400==0))?29:28;
 var t='<div class="'+main+'"><table class="'+main+'" cols="7" cellpadding="0" border="'+num+'" cellspacing="0"><tr align="center">';
 
-t+='<td colspan="7" align="center" class="'+month+'"><span class = "leftarrow">'+"&larr;     "+'</span><span class = "monthyear">'+mn[m-1]+' - '+y+'</span><span class = "rightarrow">'+"     &rarr;"+'</span></td></tr><tr align="center">';
+t+='<td colspan="7" align="center" class="'+month+'"><button id = "leftarrow">'+"&larr;"+'</button><span class = "monthyear">'+mn[m-1]+' - '+y+'</span><button onclick="myFunction()" id = "rightarrow">'+"&rarr;"+'</button></td></tr><tr align="center">';
+//document.getElementById("rightarrow").onclick = function() {alert('heleftarrowy')};
+
 
 for(s=0;s<7;s++)t+='<td class="'+daysofweek+'">'+"SMTWTFS".substr(s,1)+'</td>';
 t+='</tr><tr align="center">';
