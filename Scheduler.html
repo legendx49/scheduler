@@ -41,14 +41,18 @@ font-weight: bold;
 color: red;
 }
 
-.leftarrow{
+#leftarrow{
     text-align: left;
     font:bold 30px verdana;
+    float: left;
+    padding-left: 10px;
     
 }
-.rightarrow{
+#rightarrow{
     text-align: left;
     font:bold 30px verdana;
+    float: right;
+    padding-right: 10px;
 }
 
 </style>
@@ -62,7 +66,9 @@ color: red;
 </head>
 <body>
 <script type="text/javascript">
-
+function myFunction() {
+    alert("I am an alert box!");
+}
 var todaydate=new Date()
 var curmonth=todaydate.getMonth()+1 //get current month (1-12)
 var curyear=todaydate.getFullYear() //get current year
